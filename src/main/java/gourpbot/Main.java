@@ -1,10 +1,9 @@
 package gourpbot;
 
 public class Main {
-    private final String TOKEN = "7080799985:AAGeGFxNDFYZ2ZB44sXjEqn0JSl9WY7rL58";
+    private static final String TOKEN = "7080799985:AAGbSVw2p47IJzUCCtJ9uJdgeI4t1yyu68A";
 
     public static void main(String[] args) {
-        Bot bot = new Bot("", "", new BotModule[] { new BotModule("!go") });
-        bot.run();
+        Bot bot = new Bot("gourpbot", TOKEN, new BotModule[] { });
     }
 }
