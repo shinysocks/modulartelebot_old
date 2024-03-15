@@ -2,6 +2,7 @@ package gourpbot;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -43,10 +44,18 @@ public class Bot extends TelegramLongPollingBot {
 
             for (BotModule module : modules) {
                 if (message.contains(module.getCommand())) {
-                    new Thread(() -> module.update(message, id));
+                    new Thread(() -> send(module.update(message, id)));
                     Log.log("recieved command " + module.getCommand(), Log.FLAVOR.Success);
                 }
             }
+        }
+    }
+
+    private void send(SendMessage message) {
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            Log.log("can't send message" + e.getMessage(), Log.FLAVOR.Err);
         }
     }
 }

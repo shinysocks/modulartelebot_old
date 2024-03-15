@@ -1,5 +1,7 @@
 package gourpbot;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
 public abstract class BotModule {
     private String command;
 
@@ -16,5 +18,5 @@ public abstract class BotModule {
         return this.command;
     }
 
-    public abstract void update(String message, String chatId);
+    public abstract SendMessage update(String message, String chatId);
 }
