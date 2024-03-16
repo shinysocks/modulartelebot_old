@@ -40,18 +40,18 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             String message = update.getMessage().getText();
-            String id = update.getMessage().getChatId().toString();
+            String id = Long.toString(update.getMessage().getChatId());
 
             for (BotModule module : modules) {
                 if (message.contains(module.getCommand())) {
-                    new Thread(() -> send(module.update(message, id)));
+                    new Thread(() -> send(module.update(message, id))).start();
                     Log.log("recieved command " + module.getCommand(), Log.FLAVOR.Success);
                 }
             }
         }
     }
 
-    private void send(SendMessage message) {
+    public void send(SendMessage message) {
         try {
             execute(message);
         } catch (TelegramApiException e) {

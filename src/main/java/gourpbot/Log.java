@@ -12,7 +12,7 @@ public class Log {
 
     public static void log(String message, FLAVOR flavor) {
         LocalDateTime now = LocalDateTime.now();
-        String time = String.format("{}-{}-{} [{}:{}:{}] ", now.getDayOfMonth(), now.getMonthValue(), now.getYear(),
+        String time = String.format("%s-%s-%s [%s:%s:%s] ", now.getDayOfMonth(), now.getMonthValue(), now.getYear(),
                 now.getHour(), now.getMinute(), now.getSecond());
         String color;
         switch (flavor) {
