@@ -1,5 +1,6 @@
 package gourpbot;
 
+import gourpbot.botmodules.Pirate;
 import gourpbot.botmodules.Test;
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -8,6 +9,7 @@ public class Main {
         Bot bot = new Bot("gourpbot", getToken());
         bot.addModules(new BotModule[] {
             new Test(bot),
+            new Pirate(bot),
             // add more bots here
         });
     }

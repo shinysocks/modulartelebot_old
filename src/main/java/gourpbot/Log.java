@@ -30,6 +30,6 @@ public class Log {
                 break;
         }
 
-        System.out.println(time + color + message + DEFAULT);
+        System.out.println(color + time + message + DEFAULT);
     }
 }
