@@ -1,16 +1,19 @@
 package gourpbot.botmodules;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import gourpbot.Bot;
 import gourpbot.BotModule;
 
 public class Test extends BotModule {
-	public Test() {
+	public Test(Bot bot) {
+		super(bot);
 		setCommand("!test");
 	}
 
 	@Override
-	public SendMessage update(String message, String chatId) {
-	    return new SendMessage(chatId, "testing");
+	public void update(String message, String chatId) throws TelegramApiException {
+		send(new SendMessage(chatId, "testing"));
 	}
 }

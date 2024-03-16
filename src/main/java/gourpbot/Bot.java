@@ -2,7 +2,6 @@ package gourpbot;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -13,10 +12,9 @@ public class Bot extends TelegramLongPollingBot {
     private String name;
     private String token;
 
-    public Bot(String name, String token, BotModule[] modules) {
+    public Bot(String name, String token) {
         this.name = name;
         this.token = token;
-        this.modules = modules;
 
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -44,19 +42,20 @@ public class Bot extends TelegramLongPollingBot {
 
             for (BotModule module : modules) {
                 if (message.contains(module.getCommand())) {
-                    new Thread(() -> send(module.update(message, id))).start();
                     Log.log("recieved command " + module.getCommand(), Log.FLAVOR.Success);
+                    new Thread(() -> {
+                        try {
+                            module.update(message, id);
+                        } catch (TelegramApiException e) {
+                            Log.log("can't send message " + e.getMessage(), Log.FLAVOR.Err);
+                        }
+                    }).start();
                 }
             }
         }
     }
 
-    public void send(SendMessage message) {
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            Log.log("can't send message" + e.getMessage(), Log.FLAVOR.Err);
-        }
+    public void addModules(BotModule[] modules) {
+        this.modules = modules;
     }
 }
- 

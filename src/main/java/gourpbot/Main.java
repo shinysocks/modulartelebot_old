@@ -5,9 +5,10 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class Main {
     public static void main(String[] args) {
-        new Bot("gourpbot", getToken(), new BotModule[] {
-                new Test(),
-                // add more modules here
+        Bot bot = new Bot("gourpbot", getToken());
+        bot.addModules(new BotModule[] {
+            new Test(bot),
+            // add more bots here
         });
     }
 
