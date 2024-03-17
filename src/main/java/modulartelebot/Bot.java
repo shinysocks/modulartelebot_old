@@ -1,4 +1,4 @@
-package gourpbot;
+package modulartelebot;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;

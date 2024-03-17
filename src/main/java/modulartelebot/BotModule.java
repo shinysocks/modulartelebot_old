@@ -1,4 +1,4 @@
-package gourpbot;
+package modulartelebot;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;

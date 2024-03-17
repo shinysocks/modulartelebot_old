@@ -1,10 +1,10 @@
-package gourpbot.botmodules;
+package modulartelebot.botmodules;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import gourpbot.Bot;
-import gourpbot.BotModule;
+import modulartelebot.Bot;
+import modulartelebot.BotModule;
 
 public class Test extends BotModule {
 	public Test(Bot bot) {

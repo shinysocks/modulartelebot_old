@@ -4,12 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>modular-telebot</groupId>
-  <artifactId>modular-telebot</artifactId>
+  <groupId>modulartelebot</groupId>
+  <artifactId>modulartelebot</artifactId>
   <version>0.0</version>
 
-  <name>modular-telebot</name>
-  <url>https://github.com/shinysocks/modular-telebot</url>
+  <name>modulartelebot</name>
+  <url>https://github.com/shinysocks/modulartelebot</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -80,7 +80,7 @@
           <artifactId>exec-maven-plugin</artifactId>
           <version>1.2.1</version>
           <configuration>
-              <mainClass>gourpbot.Main</mainClass>
+              <mainClass>modulartelebot.Main</mainClass>
           </configuration>
         </plugin>
       </plugins>

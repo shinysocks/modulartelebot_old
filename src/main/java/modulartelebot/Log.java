@@ -1,4 +1,4 @@
-package gourpbot;
+package modulartelebot;
 
 import java.time.LocalDateTime;
 

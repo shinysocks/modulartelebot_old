@@ -1,8 +1,8 @@
-package gourpbot;
+package modulartelebot;
 
-import gourpbot.botmodules.Pirate;
-import gourpbot.botmodules.Test;
 import io.github.cdimascio.dotenv.Dotenv;
+import modulartelebot.botmodules.Pirate;
+import modulartelebot.botmodules.Test;
 
 public class Main {
     public static void main(String[] args) {
