@@ -1,5 +1,7 @@
 package modulartelebot;
 
+import modulartelebot.botmodules.GitRatio;
+import modulartelebot.botmodules.Test;
 import io.github.cdimascio.dotenv.Dotenv;
 import modulartelebot.botmodules.Pirate;
 import modulartelebot.botmodules.Test;
@@ -10,6 +12,7 @@ public class Main {
         bot.addModules(new BotModule[] {
             new Test(bot),
             new Pirate(bot),
+            new GitRatio(bot),
             // add more bots here
         });
     }
