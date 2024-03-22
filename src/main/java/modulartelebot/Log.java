@@ -7,7 +7,7 @@ public class Log {
     public static enum FLAVOR {
         Err,
         Success,
-        Warn
+        Info
     }
 
     public static void log(String message, FLAVOR flavor) {
@@ -22,8 +22,8 @@ public class Log {
             case Success:
                 color = "\u001b[32;1m";
                 break;
-            case Warn:
-                color = "\u001b[33;1m";
+            case Info:
+                color = "\u001b[36;1m";
                 break;
             default:
                 color = "";

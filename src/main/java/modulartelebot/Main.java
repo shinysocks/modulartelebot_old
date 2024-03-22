@@ -1,17 +1,15 @@
 package modulartelebot;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import modulartelebot.botmodules.KasaAutomation;
 import modulartelebot.botmodules.Pirate;
-import modulartelebot.botmodules.Test;
 
 public class Main {
     public static void main(String[] args) {
         Bot bot = new Bot("gourpbot", getToken());
-        bot.addModules(new BotModule[] {
-            new Test(bot),
-            new Pirate(bot),
-            // add more bots here
-        });
+
+        // add modules here:
+        new Pirate(bot);
     }
 
     private static String getToken() {

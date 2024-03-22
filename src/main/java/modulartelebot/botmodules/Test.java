@@ -9,11 +9,16 @@ import modulartelebot.BotModule;
 public class Test extends BotModule {
 	public Test(Bot bot) {
 		super(bot);
-		setCommand("!test");
+		addCommand("!test");
+		addCommand("/boodle");
 	}
 
 	@Override
 	public void update(String message, String chatId) throws TelegramApiException {
 		send(new SendMessage(chatId, "testing"));
+	}
+
+	@Override
+	public void init() {
 	}
 }
