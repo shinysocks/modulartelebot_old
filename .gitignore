@@ -6,4 +6,5 @@ target/
 .helix/
 *.svg
 *.png
+ratio-files/
 
