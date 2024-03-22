@@ -4,5 +4,4 @@ target/
 .project
 .settings/
 .helix/
-kasavenv
-
+temp/
