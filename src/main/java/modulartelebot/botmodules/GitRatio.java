@@ -5,12 +5,20 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import com.convertapi.client.Config;
+import com.convertapi.client.ConvertApi;
+import com.convertapi.client.Param;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URI;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 
@@ -19,31 +27,34 @@ import modulartelebot.BotModule;
 
 public class GitRatio extends BotModule {
   private String[] messageArgs;
-  private String baseURL = "https://ghchart.rshah.org/";
+  private final String githubChartApiURL = "https://ghchart.rshah.org/";
+  private final String convertApiURL = "https://v2.convertapi.com/convert/svg/to/png";
+  private File tempDir;
   
-  public GitRatio(Bot bot){
+  public GitRatio(Bot bot, String convertApiToken){
     super(bot);
-    setCommand("!ratio");
+    Config.setDefaultSecret(convertApiToken);
+    setCommand("/ratio");
   }
 
-  public File getFileFromURL(URL remoteFileURL, String fileName){
-    File userStats = new File(fileName+".svg");
-    try {
-      ReadableByteChannel readableByteChannel = Channels.newChannel(remoteFileURL.openStream());
-      FileOutputStream fileOutputStream = new FileOutputStream(userStats);
-      FileChannel fileChannel = fileOutputStream.getChannel();
-      fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
-      fileOutputStream.close();
-    } catch (IOException e) {
-      System.err.println("An exception has occurred: "+e);
+  private File getGitActivity(URL url, String fileName) throws InterruptedException, ExecutionException, IOException{
+    File convertedImage = ConvertApi.convert("svg", "png", new Param("File", url.toString())).get().saveFile(Path.of(tempDir.getCanonicalPath())).get().toFile();
+    convertedImage.renameTo(new File(tempDir.getCanonicalPath()+"/"+fileName));
+    return convertedImage;
+  }
+
+  private void setupTempDirectory(){
+    if(tempDir == null){
+      tempDir = new File("ratio-files");
+      tempDir.mkdir();
     }
-    return userStats;
   }
 
-  public File convertSVGToPNG(File svgFile){
-    return svgFile;
+  private void deleteTempDirectory(){
+    if(tempDir != null && tempDir.exists()){
+      tempDir.delete();
+    }
   }
-
 
   @Override
   public void update(String message, String chatId) throws TelegramApiException{
@@ -54,23 +65,27 @@ public class GitRatio extends BotModule {
       send(new SendMessage(chatId, "ERR: Too many arguments provided to command!"));
     }else{
       try {
-        URL userStatsOne = new URL(String.format("%s/%s", baseURL, messageArgs[1]));
-        URL userStatsTwo = new URL(String.format("%s/%s", baseURL, messageArgs[2]));
+        setupTempDirectory();
         SendPhoto userStatsOnePhoto = new SendPhoto();
         userStatsOnePhoto.setChatId(chatId);
-        userStatsOnePhoto.setPhoto(new InputFile(getFileFromURL(userStatsOne, "firstdev")));
         SendPhoto userStatsTwoPhoto = new SendPhoto();
         userStatsTwoPhoto.setChatId(chatId);
-        userStatsTwoPhoto.setPhoto(new InputFile(getFileFromURL(userStatsTwo, "seconddev")));
+        URL userStatsOne = new URL(String.format("%s/%s", githubChartApiURL, messageArgs[1]));
+        File fileOne = getGitActivity(userStatsOne, "firstdev.png");
+        URL userStatsTwo = new URL(String.format("%s/%s", githubChartApiURL, messageArgs[2]));
+        File fileTwo = getGitActivity(userStatsTwo, "seconddev.png");
+        userStatsOnePhoto.setPhoto(new InputFile(tempDir.listFiles()[0]));
+        userStatsTwoPhoto.setPhoto(new InputFile(tempDir.listFiles()[1]));
+        send(new SendMessage(chatId, messageArgs[1]+"'s Git Activity"));
         send(userStatsOnePhoto);
+        send(new SendMessage(chatId, messageArgs[2]+"'s Git Activity"));
         send(userStatsTwoPhoto);
-        send(new SendMessage(chatId, "Get Ratio'd"));
-      } catch (MalformedURLException e) {
+        send(new SendMessage(chatId, "HAHA Soy Dev"));
+        deleteTempDirectory();
+      } catch (Exception e) {
         System.err.println("An exception has occurred: "+e);
       }
     }
   }
-    
-  
 
 }

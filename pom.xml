@@ -31,11 +31,11 @@
     </dependency>
 
     <dependency>
-      <groupId>batik</groupId>
-      <artifactId>batik-transcoder</artifactId>
-      <version>1.6-1</version>
+      <groupId>com.convertapi.client</groupId>
+      <artifactId>convertapi</artifactId>
+      <version>2.10</version>
     </dependency>
-    
+
   </dependencies>
 
   <build>
