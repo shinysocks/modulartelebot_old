@@ -10,7 +10,6 @@ public class Test extends BotModule {
 	public Test(Bot bot) {
 		super(bot);
 		addCommand("!test");
-		addCommand("/boodle");
 	}
 
 	@Override

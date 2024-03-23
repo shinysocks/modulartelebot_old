@@ -9,7 +9,6 @@ import modulartelebot.botmodules.Pirate;
 public class Main {
     public static void main(String[] args) {
         Bot bot = new Bot("gourpbot", getToken("TELEGRAM_TOKEN"));
-        new Test(bot);
         new Pirate(bot);
         new GitRatio(bot, getToken("CONVERT_API_TOKEN"));
         // add more bots here

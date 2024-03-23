@@ -19,6 +19,7 @@ public abstract class BotModule {
 
 	public BotModule(Bot bot) {
 	    this.bot = bot;
+	    bot.addModule(this);
 	    init();
 	}
 

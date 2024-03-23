@@ -23,7 +23,7 @@ public class Log {
                 color = "\u001b[32;1m";
                 break;
             case Info:
-                color = "\u001b[36;1m";
+                color = "\u001b[34;1m";
                 break;
             default:
                 color = "";

@@ -1,5 +1,11 @@
 package modulartelebot.botmodules;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.util.concurrent.ExecutionException;
+
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -8,19 +14,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import com.convertapi.client.Config;
 import com.convertapi.client.ConvertApi;
 import com.convertapi.client.Param;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URI;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.concurrent.ExecutionException;
-import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
 
 import modulartelebot.Bot;
 import modulartelebot.BotModule;
@@ -34,7 +27,7 @@ public class GitRatio extends BotModule {
   public GitRatio(Bot bot, String convertApiToken){
     super(bot);
     Config.setDefaultSecret(convertApiToken);
-    setCommand("/ratio");
+    addCommand("/ratio");
   }
 
   private File getGitActivity(URL url, String fileName) throws InterruptedException, ExecutionException, IOException{
@@ -45,7 +38,7 @@ public class GitRatio extends BotModule {
 
   private void setupTempDirectory(){
     if(tempDir == null){
-      tempDir = new File("ratio-files");
+      tempDir = new File("./temp/ratio-files");
       tempDir.mkdir();
     }
   }
@@ -88,4 +81,6 @@ public class GitRatio extends BotModule {
     }
   }
 
+  @Override
+  public void init() {}
 }

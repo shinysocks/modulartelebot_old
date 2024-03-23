@@ -41,10 +41,9 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             String message = update.getMessage().getText();
-            
             String id = Long.toString(update.getMessage().getChatId());
 
-            for (BotModule module : modules) {
+            for (BotModule module : this.modules) {
                 for (String c : module.getCommands()) {
                     if (message.contains(c)) {
                         Log.log("recieved command " + c, Log.FLAVOR.Success);
