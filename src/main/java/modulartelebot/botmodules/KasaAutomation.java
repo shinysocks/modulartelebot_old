@@ -45,7 +45,7 @@ public class KasaAutomation extends BotModule {
         try {
             run("kasa --type bulb --host $ip " + command);
         } catch(Exception e) {
-            Log.log("could not run command", Log.FLAVOR.Err);
+            Log.log("could not run command", Log.FLAVOR.ERR);
         }
     }
 
@@ -61,10 +61,10 @@ public class KasaAutomation extends BotModule {
 	public void init() {
 	    try {
     	    run("python -m venv ./temp/kasavenv");
-    	    Log.log("initialized python virtual environment, installing python-kasa library..", Log.FLAVOR.Info);
+    	    Log.log("initialized python virtual environment, installing python-kasa library..", Log.FLAVOR.INFO);
     	    run("source ./temp/kasavenv/bin/activate ; pip install python-kasa");
         } catch (Exception e) {
-            Log.log("unable to create python virtual environment and install python-kasa from pypi, is python installed?", Log.FLAVOR.Err);
+            Log.log("unable to create python virtual environment and install python-kasa from pypi, is python installed?", Log.FLAVOR.ERR);
         }
 	}
 }

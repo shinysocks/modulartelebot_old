@@ -12,14 +12,13 @@ import modulartelebot.BotModule;
 import modulartelebot.Log;
 
 public class Pirate extends BotModule {
-    private File tempDir;
+    private File tempDir = new File("./temp/pirate");
 
     public Pirate(Bot bot) {
         super(bot);
         addCommand("/pirate");
         addCommand("open.spotify.com");
-        tempDir = new File("./temp/pirate");
-        tempDir.mkdir();
+				tempDir.mkdir();
     }
 
     @Override
@@ -43,7 +42,7 @@ public class Pirate extends BotModule {
             download(query);
         } catch (Exception e) {
             send(new SendMessage(chatId, "failed to download, " + e.getMessage()));
-            Log.log(String.format("failed to download '%s', %s", query, e.getMessage()), Log.FLAVOR.Err);
+            Log.log(String.format("failed to download '%s', %s", query, e.getMessage()), Log.FLAVOR.ERR);
             return;
         }
 
@@ -52,7 +51,7 @@ public class Pirate extends BotModule {
             send(new SendDocument(chatId, new InputFile(f)));
             f.delete();
         }
-        Log.log("cleared temporary directory", Log.FLAVOR.Info);
+        Log.log("cleared temporary directory", Log.FLAVOR.INFO);
     }
 
     private void download(String query) throws Exception {

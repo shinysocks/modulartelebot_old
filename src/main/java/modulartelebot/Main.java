@@ -1,13 +1,15 @@
 package modulartelebot;
 
 import modulartelebot.botmodules.GitRatio;
-import modulartelebot.botmodules.Test;
 import io.github.cdimascio.dotenv.Dotenv;
-import modulartelebot.botmodules.KasaAutomation;
 import modulartelebot.botmodules.Pirate;
+import java.io.File;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
+				if(!Arrays.asList(new File("./").listFiles()).contains(new File("temp")))
+					new File("./temp").mkdir();
         Bot bot = new Bot("gourpbot", getToken("TELEGRAM_TOKEN"));
         new Pirate(bot);
         new GitRatio(bot, getToken("CONVERT_API_TOKEN"));
@@ -18,7 +20,7 @@ public class Main {
         Dotenv dotenv = Dotenv.load();
         String token = dotenv.get(tokenKey);
         if (token == null) {
-            Log.log("cannot get token", Log.FLAVOR.Err);
+            Log.log("cannot get token", Log.FLAVOR.ERR);
         }
         return token;
     }
