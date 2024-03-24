@@ -25,7 +25,7 @@ public abstract class BotModule {
 
     public void addCommand(String command) {
         this.commands.add(command);
-        Log.log("added command '" + command + "'", Log.FLAVOR.Info);
+        Log.log("added command '" + command + "'", Log.FLAVOR.INFO);
     }
 
     public ArrayList<String> getCommands() {

@@ -23,7 +23,7 @@ public class Bot extends TelegramLongPollingBot {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
             botsApi.registerBot(this);
         } catch (TelegramApiException e) {
-            Log.log("unable to register bot.. " + e.getMessage(), Log.FLAVOR.Err);
+            Log.log("unable to register bot.. " + e.getMessage(), Log.FLAVOR.ERR);
         }
     }
 
@@ -46,12 +46,12 @@ public class Bot extends TelegramLongPollingBot {
             for (BotModule module : this.modules) {
                 for (String c : module.getCommands()) {
                     if (message.contains(c)) {
-                        Log.log("recieved command " + c, Log.FLAVOR.Success);
+                        Log.log("recieved command " + c, Log.FLAVOR.SUCCESS);
                         new Thread(() -> {
                             try {
                                 module.update(message, id);
                             } catch (TelegramApiException e) {
-                                Log.log("can't send message " + e.getMessage(), Log.FLAVOR.Err);
+                                Log.log("can't send message " + e.getMessage(), Log.FLAVOR.ERR);
                             }
                         }).start();
                     }

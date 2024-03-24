@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 public class Log {
     private static final String DEFAULT = "\u001b[0m";
     public static enum FLAVOR {
-        Err,
-        Success,
-        Info
+        ERR,
+        SUCCESS,
+        INFO
     }
 
     public static void log(String message, FLAVOR flavor) {
@@ -16,13 +16,13 @@ public class Log {
                 now.getHour(), now.getMinute(), now.getSecond());
         String color;
         switch (flavor) {
-            case Err:
+            case ERR:
                 color = "\u001b[31;1m";
                 break;
-            case Success:
+            case SUCCESS:
                 color = "\u001b[32;1m";
                 break;
-            case Info:
+            case INFO:
                 color = "\u001b[34;1m";
                 break;
             default:
