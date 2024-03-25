@@ -3,6 +3,7 @@ package modulartelebot;
 import modulartelebot.botmodules.GitRatio;
 import io.github.cdimascio.dotenv.Dotenv;
 import modulartelebot.botmodules.Pirate;
+import modulartelebot.botmodules.YTDL;
 import java.io.File;
 import java.util.Arrays;
 
@@ -13,6 +14,7 @@ public class Main {
         Bot bot = new Bot("gourpbot", getToken("TELEGRAM_TOKEN"));
         new Pirate(bot);
         new GitRatio(bot, getToken("CONVERT_API_TOKEN"));
+				new YTDL(bot);
         // add more bots here
     }
 
