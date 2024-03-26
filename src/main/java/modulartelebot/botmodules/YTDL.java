@@ -3,6 +3,7 @@ package modulartelebot.botmodules;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+import java.util.Arrays;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
@@ -15,6 +16,7 @@ import modulartelebot.Log;
 
 public class YTDL extends BotModule {
 	private final File tempDir = new File("./temp/yt-dlp");
+	private final String[] validDomainSpecifier = {"youtube", "youtu.be"};
 
 	public YTDL(Bot bot){
 		super(bot);
@@ -44,7 +46,7 @@ public class YTDL extends BotModule {
 		if(commandArguments.length > 2){
 			send(new SendMessage(chatId, "Err: Invalid number of arguments provided to command"));
 		}
-		if(commandArguments[1].contains("youtube")){
+		if(Arrays.stream(validDomainSpecifier).anyMatch(commandArguments[1]::contains)){
 			send(new SendMessage(chatId, String.format("Downloading video: [%s]", commandArguments[1])));
 			try {
 				SendVideo downloadedVideo = new SendVideo();
