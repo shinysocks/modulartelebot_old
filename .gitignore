@@ -4,7 +4,4 @@ target/
 .project
 .settings/
 .helix/
-*.svg
-*.png
-ratio-files/
-
+temp/

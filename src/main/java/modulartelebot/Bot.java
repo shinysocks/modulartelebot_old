@@ -1,5 +1,7 @@
 package modulartelebot;
 
+import java.util.ArrayList;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -8,13 +10,14 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @SuppressWarnings("deprecation")
 public class Bot extends TelegramLongPollingBot {
-    private BotModule[] modules;
+    private ArrayList<BotModule> modules;
     private String name;
     private String token;
 
     public Bot(String name, String token) {
         this.name = name;
         this.token = token;
+        this.modules = new ArrayList<BotModule>();
 
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -38,24 +41,27 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             String message = update.getMessage().getText();
+            
             String id = Long.toString(update.getMessage().getChatId());
 
             for (BotModule module : modules) {
-                if (message.contains(module.getCommand())) {
-                    Log.log("recieved command " + module.getCommand(), Log.FLAVOR.Success);
-                    new Thread(() -> {
-                        try {
-                            module.update(message, id);
-                        } catch (TelegramApiException e) {
-                            Log.log("can't send message " + e.getMessage(), Log.FLAVOR.Err);
-                        }
-                    }).start();
+                for (String c : module.getCommands()) {
+                    if (message.contains(c)) {
+                        Log.log("recieved command " + c, Log.FLAVOR.Success);
+                        new Thread(() -> {
+                            try {
+                                module.update(message, id);
+                            } catch (TelegramApiException e) {
+                                Log.log("can't send message " + e.getMessage(), Log.FLAVOR.Err);
+                            }
+                        }).start();
+                    }
                 }
             }
         }
     }
 
-    public void addModules(BotModule[] modules) {
-        this.modules = modules;
+    public void addModule(BotModule module) {
+        this.modules.add(module);
     }
 }
