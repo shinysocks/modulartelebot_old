@@ -18,7 +18,7 @@ public class Main {
         // add more bots here
     }
 
-    private static String getToken(String tokenKey) {
+    public static String getToken(String tokenKey) {
         Dotenv dotenv = Dotenv.load();
         String token = dotenv.get(tokenKey);
         if (token == null) {
