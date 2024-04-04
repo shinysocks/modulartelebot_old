@@ -4,12 +4,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import modulartelebot.Bot;
 import modulartelebot.BotModule;
 import modulartelebot.Log;
+import modulartelebot.Main;
 
 /**
- * my custom automation bindings for the tp-link kasa smart bulb
+ * my custom bindings for the tp-link kasa smart bulb
  */
 
 public class KasaAutomation extends BotModule {
+    private String ip;
     public KasaAutomation(Bot bot) {
         super(bot);
         addCommand("/bulb");
@@ -26,24 +28,19 @@ public class KasaAutomation extends BotModule {
             case "status":
                 status();
                 break;
-            case "bedtime":
-
-                break;
             case "ocean":
-
-                break;
-            case "ethereal":
-
+                kasaCommand("hsv 230 100 100");
                 break;
             default:
                 // default light state
+                kasaCommand("hsv 57 100 100");
                 break;
         }
     }
 
     private void kasaCommand(String command) {
         try {
-            run("kasa --type bulb --host $ip " + command);
+            System.out.println(run(String.format("kasa --type bulb --host %s %s)", ip, command)));
         } catch(Exception e) {
             Log.log("could not run command", Log.FLAVOR.ERR);
         }
@@ -53,8 +50,10 @@ public class KasaAutomation extends BotModule {
         
     }
 
-    private void run(String command) throws Exception {
-        new ProcessBuilder("/bin/bash", "-c", command).start().onExit().get();        
+    private int run(String command) throws Exception {
+        Process runner = new ProcessBuilder("/bin/bash", "-c", command).start();       
+        runner.onExit();
+        return runner.exitValue();
     }
 
 	@Override
@@ -66,5 +65,6 @@ public class KasaAutomation extends BotModule {
         } catch (Exception e) {
             Log.log("unable to create python virtual environment and install python-kasa from pypi, is python installed?", Log.FLAVOR.ERR);
         }
+        this.ip = Main.getToken("BULB_IP");
 	}
 }
