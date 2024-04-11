@@ -12,13 +12,10 @@ import modulartelebot.BotModule;
 import modulartelebot.Log;
 
 public class Pirate extends BotModule {
-    private File tempDir = new File("./temp/pirate");
-
     public Pirate(Bot bot) {
         super(bot);
         addCommand("/pirate");
         addCommand("open.spotify.com");
-				tempDir.mkdir();
     }
 
     @Override
@@ -37,9 +34,11 @@ public class Pirate extends BotModule {
             }
         }
 
+        File subTempDir = new File("./temp/pirate", query);
+
         // download
         try {
-            download(query);
+            download(query, subTempDir);
         } catch (Exception e) {
             send(new SendMessage(chatId, "failed to download, " + e.getMessage()));
             Log.log(String.format("failed to download '%s', %s", query, e.getMessage()), Log.FLAVOR.ERR);
@@ -47,25 +46,19 @@ public class Pirate extends BotModule {
         }
 
         // send song;
-        for (File f : tempDir.listFiles()) {
+        for (File f : subTempDir.listFiles()) {
             send(new SendDocument(chatId, new InputFile(f)));
             f.delete();
         }
-        Log.log("cleared temporary directory", Log.FLAVOR.INFO);
+        subTempDir.delete();
     }
 
-    private void download(String query) throws Exception {
-        String spotdl = String.format("./lib/spotdl-amd64 download '%s' --format mp3 --output %s", query, tempDir);
+    private void download(String query, File dir) throws Exception {
+        String spotdl = String.format("./lib/spotdl-amd64 download '%s' --format mp3 --output '%s'", query, dir);
         // wait until download is complete
         new ProcessBuilder("/bin/bash", "-c", spotdl).start().onExit().get();
     }
-    
+
     @Override
-    public void init() {
-        if (tempDir != null && tempDir.exists()) {
-            for (File f : tempDir.listFiles()) {
-                f.delete();
-            } tempDir.delete();
-        }
-    }
+    public void init() {}
 }
