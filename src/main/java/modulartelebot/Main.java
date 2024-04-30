@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Arrays;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import modulartelebot.botmodules.KasaAutomation;
 import modulartelebot.botmodules.Pirate;
 
 public class Main {
@@ -13,7 +12,6 @@ public class Main {
             new File("./temp").mkdir();
         Bot bot = new Bot("gourpbot", getToken("TELEGRAM_TOKEN"));
         new Pirate(bot);
-        new KasaAutomation(bot);
         // add more bots here
     }
 
