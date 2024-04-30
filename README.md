@@ -29,26 +29,26 @@ docker logs -f modulartelebot
 **to contribute to this project just open a pull request!!**
 
 currently any new modules should extend the BotModule class which contains 4 important methods:
-* addCommand() -> adds a command which the bot will listen for.
-* update() -> called whenever the bot recieves a message containing the specified command
-* init() -> called when the bot is started
-* send(SendMessage | SendPhoto | SendVideo | SendAudio | SendDocument) -> sends specified content
+* `addCommand()` -> adds a command which the bot will listen for.
+* `update()` -> called whenever the bot recieves a message containing the specified command
+* `init()` -> called when the bot is started
+* `send(SendMessage | SendPhoto | SendVideo | SendAudio | SendDocument)` -> sends specified content
 
 ### Example usage from Test.java:
 ```
 public class Test extends BotModule {
-	public Test(Bot bot) {
-		super(bot);
-		addCommand("!test");
-	}
+  public Test(Bot bot) {
+    super(bot);
+    addCommand("!test");
+  }
 
-	@Override
-	public void update(String message, String chatId) throws TelegramApiException {
-		send(new SendMessage(chatId, "testing"));
-	}
+  @Override
+  public void update(String message, String chatId) throws TelegramApiException {
+    send(new SendMessage(chatId, "testing"));
+  }
 
-	@Override
-	public void init() {}
+  @Override
+  public void init() {}
 }
 ```
 
