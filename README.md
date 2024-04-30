@@ -1,5 +1,5 @@
 # modulartelebot
-### an extensible telegram bot
+#### an extensible telegram bot
 
 ---
 ## Current Modules
@@ -26,7 +26,7 @@ docker logs -f modulartelebot
 ```
 
 ## Contributing
-*to contribute to this project just open a pull request!!*
+**to contribute to this project just open a pull request!!**
 
 currently any new modules should extend the BotModule class which contains 4 important methods:
 * addCommand() -> adds a command which the bot will listen for.
