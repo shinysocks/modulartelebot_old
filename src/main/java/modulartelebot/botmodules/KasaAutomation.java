@@ -31,16 +31,18 @@ public class KasaAutomation extends BotModule {
             case "ocean":
                 kasaCommand("hsv 230 100 100");
                 break;
-            default:
+            case "":
                 // default light state
                 kasaCommand("hsv 57 100 100");
+                break;
+            default:
                 break;
         }
     }
 
     private void kasaCommand(String command) {
         try {
-            System.out.println(run(String.format("kasa --type bulb --host %s %s)", ip, command)));
+            run(String.format("source ./temp/kasavenv/activate ; kasa --type bulb --host %s %s", ip, command));
         } catch(Exception e) {
             Log.log("could not run command", Log.FLAVOR.ERR);
         }
@@ -50,10 +52,8 @@ public class KasaAutomation extends BotModule {
         
     }
 
-    private int run(String command) throws Exception {
-        Process runner = new ProcessBuilder("/bin/bash", "-c", command).start();       
-        runner.onExit();
-        return runner.exitValue();
+    private void run(String command) throws Exception {
+        Process p = new ProcessBuilder("/bin/bash", "-c", command).start().onExit().get();
     }
 
 	@Override
@@ -66,5 +66,5 @@ public class KasaAutomation extends BotModule {
             Log.log("unable to create python virtual environment and install python-kasa from pypi, is python installed?", Log.FLAVOR.ERR);
         }
         this.ip = Main.getToken("BULB_IP");
-	}
+    }
 }
