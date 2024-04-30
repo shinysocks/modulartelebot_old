@@ -18,6 +18,5 @@ public class Test extends BotModule {
 	}
 
 	@Override
-	public void init() {
-	}
+	public void init() {}
 }

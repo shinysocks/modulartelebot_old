@@ -35,7 +35,7 @@ public class YTDL extends BotModule {
 	}
 
 	private File downloadVideo(String query) throws ExecutionException, IOException, InterruptedException {
-		String ytDlp = String.format("./lib/yt-dlp_linux \"%s\" -f mp4 -o %s/video.mp4", query, tempDir);
+		String ytDlp = String.format("./bin/yt-dlp_linux \"%s\" -f mp4 -o %s/video.mp4", query, tempDir);
 		new ProcessBuilder("/bin/bash", "-c", ytDlp).start().onExit().get();
 		return new File(String.format("%s/video.mp4", tempDir));	
 	}

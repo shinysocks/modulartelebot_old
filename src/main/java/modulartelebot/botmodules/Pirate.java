@@ -54,7 +54,7 @@ public class Pirate extends BotModule {
     }
 
     private void download(String query, File dir) throws Exception {
-        String spotdl = String.format("./lib/spotdl-amd64 download '%s' --format mp3 --output '%s'", query, dir);
+        String spotdl = String.format("./bin/spotdl-amd64 download '%s' --format mp3 --output '%s'", query, dir);
         // wait until download is complete
         new ProcessBuilder("/bin/bash", "-c", spotdl).start().onExit().get();
     }
